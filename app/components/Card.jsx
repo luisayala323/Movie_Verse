@@ -9,7 +9,7 @@ function Card({ movie }) {
     <div>
       <Link className= "text-decoration-none" href={"/movies/" + movie.id}>
         <div className="card" style={{width: '15rem'}}>
-          <img src={IMAGE_BASE_URL + movie.poster_path} alt="" className="card-img-top"/>
+          <img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} className="card-img-top"/>
           <div className="card-body">
             <h5 className="card-title">{movie.title}</h5>
             <p className="overflow-y-auto card-text" style={{height: "150px"}}>{movie.overview}</p>
