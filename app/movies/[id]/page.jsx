@@ -14,18 +14,22 @@ async function MovieDetailsPage({params}) {
                     <div className="mx-5">
                         <h3>{movieDetails.title}</h3>
                         <div className="d-flex">
-                        <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.release_date}</p>
-                        <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.original_language}</p>
-                        <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.status}</p>
+                            <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.release_date}</p>
+                            <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.original_language}</p>
+                            <p className="px-2 py-1 text-white rounded bg-warning me-2">{movieDetails.status}</p>
                         </div>
-                        <div>
-                            <p>{movieDetails.genres.map(genre => {
-                                return <span className="p-1 mx-1 text-white rounded bg-dark me-2" key={genre.id}>{genre.name}</span>
-                            })}</p>
-                        </div>
-                        <p>{movieDetails.overview}</p>
+                            <div>
+                                <p>
+                                {movieDetails.genres && movieDetails.genres.map(genre => (
+                                <span className="p-1 mx-1 text-white rounded bg-dark me-2" key={genre.id}>{genre.name}</span>
+                                ))}
+                                </p>
+                            </div>
+                            <p>{movieDetails.overview}</p>
                     </div>
-                </div>
+            </div>
+
+
                 {/* Similarl Movies */}
                 <div className="my-3">
                     <h2>Similar Movies</h2>
@@ -43,7 +47,7 @@ async function MovieDetailsPage({params}) {
                         })}
                     </div>
                 </div>
-            </div>
+        </div>
     )
 }
 
