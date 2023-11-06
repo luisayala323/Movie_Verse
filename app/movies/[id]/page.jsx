@@ -30,7 +30,7 @@ async function MovieDetailsPage({params}) {
             </div>
 
 
-                {/* Similarl Movies */}
+                {/* Similar Movies */}
                 <div className="my-3">
                     <h2>Similar Movies</h2>
                     <div className="flex-wrap gap-3 d-flex">
