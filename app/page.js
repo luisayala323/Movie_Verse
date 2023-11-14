@@ -14,15 +14,7 @@ export default async function Homepage() {
         {movies.map(movie => (
           <Card key={movie.id} movie={movie} />
         ))}
-      </div>
-
-      <h1>Top Books</h1>
-      <div className="flex-wrap gap-4 d-flex">
-        {books.map(book => (
-          // Adjust the Card component to handle book data
-          <Card key={book.id} book={book} type="book" />
-        ))}
-      </div>
+      </div>  
     </div>
   );
 }

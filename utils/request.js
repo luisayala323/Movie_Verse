@@ -20,19 +20,13 @@ export const getMovies = async (query) => {
 //Fetch Movie Details for a specific movie
 export const getMovieDetails = async (id) => {
   const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch movie with id ${id}`);
-  }
-
   const movieData = await res.json();
-  if (!movieData || typeof movieData !== 'object') {
-    throw new Error(`Unexpected response data for movie with id ${id}`);
-  }
 
   let bookData = null;
-  if (movieData.bookId) {
-    const bookRes = await fetch(`${GOOGLE_BOOKS_BASE_URL}/volumes/${movieData.bookId}?key=${GOOGLE_BOOKS_API_KEY}`);
-    bookData = await bookRes.json();
+  if (movieData.title) {
+    const bookRes = await fetch(`${GOOGLE_BOOKS_BASE_URL}/volumes?q=${movieData.title}&key=${GOOGLE_BOOKS_API_KEY}`);
+    const bookDataRes = await bookRes.json();
+    bookData = bookDataRes.items ? bookDataRes.items[0] : null; // Get the first book that matches the movie title
   }
 
   return { movie: movieData, book: bookData };

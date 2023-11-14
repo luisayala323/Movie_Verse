@@ -2,13 +2,10 @@ import Link from "next/link";
 import MovieDetailspage from "../movies/[id]/page";
 
 function Card({ movie }) {
-  if (!movie) {
-    return <div>No movie data</div>;
-  }
-
   const IMAGE_BASE_URL = 'https://www.themoviedb.org/t/p/w220_and_h330_face';
 
   return (
+    
     <div>
       <Link className= "text-decoration-none" href={"/movies/" + movie.id}>
         <div className="card" style={{width: '15rem'}}>
