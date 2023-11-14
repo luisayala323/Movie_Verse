@@ -29,3 +29,23 @@ export const getSimilarMovies = async (id) => {
   return data.results;
 }
 
+export const getAnimeData = async () => {
+  const url = 'https://anime-db.p.rapidapi.com/anime?page=1&size=10&sortOrder=asc';
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '1342bd0379msh4ebaad44a893901p17cbffjsn37ae1efae3b8',
+      'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.text();
+    console.log(result);
+    return JSON.parse(result); // You can return the parsed JSON data if needed.
+  } catch (error) {
+    console.error(error);
+    throw error; // You can handle the error as needed.
+  }
+}
