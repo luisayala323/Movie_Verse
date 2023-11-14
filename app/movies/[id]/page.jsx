@@ -1,9 +1,10 @@
-import { getMovieDetails, getSimilarMovies } from "@/utils/request"
+import { getMovieDetails, getSimilarMovies, getStreamingAvailability } from "@/utils/request"
 
-async function MovieDetailsPage({params}) {
+async function MovieDetailsPage({ params }) {
     const { movie: movieDetails, book: bookDetails } = await getMovieDetails(params.id);
     const IMAGE_BASE_URL = "https://www.themoviedb.org/t/p/w220_and_h330_face";
     const similarMovies = await getSimilarMovies(params.id);
+    const streamingAvailability = await getStreamingAvailability([movieDetails.imdb_id]);
 
     return (
         <div className="mx-3 my-4">
@@ -20,44 +21,66 @@ async function MovieDetailsPage({params}) {
                     </div>
                     <div>
                         <p>
-                        {movieDetails.genres && movieDetails.genres.map(genre => (
-                            <span className="p-1 mx-1 text-white rounded bg-dark me-2" key={genre.id}>{genre.name}</span>
-                        ))}
+                            {movieDetails.genres && movieDetails.genres.map(genre => (
+                                <span className="p-1 mx-1 text-white rounded bg-dark me-2" key={genre.id}>{genre.name}</span>
+                            ))}
                         </p>
                     </div>
                     <p>{movieDetails.overview}</p>
-                    {bookDetails && (
-    <div>
-        <h4>Related Books:</h4>
-        <h5>{bookDetails.volumeInfo.title}</h5>
-        <p>{bookDetails.volumeInfo.authors.join(', ')}</p>
-        {bookDetails.volumeInfo.imageLinks && bookDetails.volumeInfo.imageLinks.thumbnail && (
-            <img src={bookDetails.volumeInfo.imageLinks.thumbnail} alt={bookDetails.volumeInfo.title} />
-        )}
-        {/* Add more book data as needed */}
-    </div>
-)}
                 </div>
             </div>
 
+            {bookDetails && (
+                <div>
+                    <h4>Related Books:</h4>
+                    <h5>{bookDetails.volumeInfo.title}</h5>
+                    <p>{bookDetails.volumeInfo.authors.join(', ')}</p>
+                    {bookDetails.volumeInfo.imageLinks && bookDetails.volumeInfo.imageLinks.thumbnail && (
+                        <img src={bookDetails.volumeInfo.imageLinks.thumbnail} alt={bookDetails.volumeInfo.title} />
+                    )}
+                    <p>{bookDetails.volumeInfo.description}</p>
+                </div>
+            )}
+
+            {/* Streaming Availability */}
+
+            {streamingAvailability && streamingAvailability[movieDetails.imdb_id] && (
+                <div>
+                    <h4>Streaming Availability:</h4>
+                    <div>
+                        <h4>Ways to Watch {streamingAvailability[movieDetails.imdb_id].title.title}:</h4>
+                        {streamingAvailability[movieDetails.imdb_id].waysToWatch.optionGroups.map((group, index) => (
+                            <div key={index}>
+                                {group.watchOptions.map((option, index) => (
+                                    <div key={index}>
+                                        <p>{option.primaryText} - {option.secondaryText}</p>
+                                        <a href={option.link.uri}>Watch Here</a>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                        <h4>Reviews:</h4>
+                        <p>User Rating: {streamingAvailability[movieDetails.imdb_id].ratings.rating}</p>
+                        <p>Meta Score: {streamingAvailability[movieDetails.imdb_id].metacritic.metaScore}</p>
+                    </div>
+                </div>
+            )}
             {/* Similar Movies */}
             <div className="my-3">
                 <h2>Similar Movies</h2>
                 <div className="flex-wrap gap-3 d-flex">
-                    {similarMovies.map(movie => {
-                    return(
-                        <div>
-                            <img src={IMAGE_BASE_URL + movie.poster_path}/>
+                    {similarMovies.map(movie => (
+                        <div key={movie.id}>
+                            <img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
                             <div className="card-body">
                                 <h5 className="card-title">{movie.title}</h5>
                             </div>
                         </div>
-                    )
-                    })}
+                    ))}
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default MovieDetailsPage
+export default MovieDetailsPage;
