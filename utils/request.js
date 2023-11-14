@@ -52,3 +52,26 @@ export const getBookDetails = async (id) => {
   const data = await res.json();
   return data;
 };
+
+export async function getStreamingAvailability(ids) {
+  const url = `https://online-movie-database.p.rapidapi.com/title/get-meta-data?${ids.map(id => `ids=${id}`).join('&')}&region=US`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': 'b40c34a828mshebf6340a14a1f0bp1ec9f0jsn23a2a2b1e9d6',
+      'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      console.log(`API response status: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(`API response data: ${JSON.stringify(result)}`);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
