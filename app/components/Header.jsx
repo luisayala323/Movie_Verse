@@ -19,8 +19,8 @@ function Header() {
       <nav className="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div className="container">
           <Link href="/">
-            <div className="navbar-brand d-flex align-items-center">
-              <img src="/app/favico" alt="Logo" width="30" height="30" className="d-inline-block align-top me-2" />
+            <div className="navbar-brand d-flex align-items-center" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <img src="/Movie_Verse.logo.png" alt="Logo" width="30" height="30" className="d-inline-block align-top me-2" />
               MOVIE VERSE
             </div>
           </Link>
