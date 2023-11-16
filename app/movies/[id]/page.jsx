@@ -41,10 +41,8 @@ async function MovieDetailsPage({ params }) {
                     <p>{bookDetails.volumeInfo.description}</p>
                 </div>
             )}
-
             {/* Streaming Availability */}
-
-            {streamingAvailability && streamingAvailability[movieDetails.imdb_id] && (
+            {streamingAvailability && streamingAvailability[movieDetails.imdb_id] && streamingAvailability[movieDetails.imdb_id].waysToWatch && streamingAvailability[movieDetails.imdb_id].waysToWatch.optionGroups ? (
                 <div>
                     <h4>Streaming Availability:</h4>
                     <div>
@@ -64,21 +62,20 @@ async function MovieDetailsPage({ params }) {
                         <p>Meta Score: {streamingAvailability[movieDetails.imdb_id].metacritic.metaScore}</p>
                     </div>
                 </div>
-            )}
+            ) : null}
+
             {/* Similar Movies */}
-            <div className="my-3">
-                <h2>Similar Movies</h2>
-                <div className="flex-wrap gap-3 d-flex">
-                    {similarMovies.map(movie => (
-                        <div key={movie.id}>
+            {similarMovies && similarMovies.length > 0 && (
+                <div>
+                    <h4>Similar Movies:</h4>
+                    {similarMovies.map((movie, index) => (
+                        <div key={index}>
                             <img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
-                            <div className="card-body">
-                                <h5 className="card-title">{movie.title}</h5>
-                            </div>
+                            <p>{movie.title}</p>
                         </div>
                     ))}
                 </div>
-            </div>
+            )}
         </div>
     );
 }
